@@ -5,3 +5,4 @@ wordcloud
 matplotlib
 konlpy
 scikit-learn
+streamlit_option_menu
