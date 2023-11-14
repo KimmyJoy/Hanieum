@@ -4,13 +4,14 @@ from myTextMining import okt_tokenizer
 import matplotlib.pyplot as plt
 from streamlit_option_menu import option_menu
 import movie_recommendation as mr
+import movie_details as md
 
 keyword = ''
 
 with st.sidebar:
         keyword = st.text_input("검색어를 입력하세요 :").strip()
-        choice = option_menu("Menu", ["영화추천", "긍부정 분석기"],
-                                icons=['kanban', 'bi bi-robot'],
+        choice = option_menu("Menu", ["영화추천", "긍부정 분석기", "영화 상세정보"],
+                                icons=['kanban', 'bi bi-robot', 'bi bi-file-earmark-richtext'],
                                 menu_icon="app-indicator", default_index=0,
                                 styles={
                 "container": {"padding": "4!important", "background-color": "#fafafa"},
@@ -24,9 +25,23 @@ if keyword == '' :
         st.write('좌측 검색란에 검색어를 입력해주세요.')
 else :
 
-        if choice == '기능추가' :
-                st.write('기능추가')
+        if choice == '영화 상세정보' :
+                st.title('영화 상세정보')
+                st.subheader(f'{keyword}의 상세정보입니다.')
+                with st.spinner('Wait for it...'):
+                        # 네이버 영화 검색 API 호출
+                        result = md.searchNaverMovie(keyword)
+                        # 검색 결과 출력
+                        if result is not None:
+                                for item in result['items']:
+                                        st.write("제목: ", item['title'])
+                                        st.write("연도: ", item['pubDate'])
+                                        st.write("감독: ", item['director'])
+                                        st.write("배우: ", item['actor'])
 
+                                        # 영화 포스터 출력
+                                        if item['image'] != "":
+                                           st.image(item['image'])
         elif choice == '영화추천':
                 st.title('영화추천페이지')
                 st.subheader(f'{keyword}와(과) 연관도가 높은 영화 10개 입니다.')

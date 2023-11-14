@@ -1,7 +1,6 @@
 import urllib.request
 import json
 from collections import Counter
-
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
@@ -9,7 +8,6 @@ import re
 import pandas as pd
 import joblib
 from konlpy.tag import Okt
-
 import streamlit as st
 
 
@@ -24,8 +22,6 @@ client_secret = st.secrets["NAVER_CLIENT_SECRET"]
 const_url = "https://openapi.naver.com/v1/search/blog.json?query=" # JSON 결과
 const_start = 1
 const_display = 100
-
-
 
 
 #######################################################
