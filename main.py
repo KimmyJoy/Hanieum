@@ -43,7 +43,7 @@ else :
 
                                         # 영화 포스터 출력
                                         if movie["poster_path"] is not None:
-                                           st.image("https://image.tmdb.org/t/p/w500" + movie["poster_path"], height=720)
+                                           st.image("https://image.tmdb.org/t/p/w500" + movie["poster_path"], width=480)
 
                                         st.markdown("<hr/>", unsafe_allow_html=True)
                         else:
