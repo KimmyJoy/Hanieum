@@ -29,19 +29,22 @@ else :
                 st.title('영화 상세정보')
                 st.subheader(f'{keyword}의 상세정보입니다.')
                 with st.spinner('Wait for it...'):
-                        # 네이버 영화 검색 API 호출
-                        result = md.searchNaverMovie(keyword)
-                        # 검색 결과 출력
-                        if result is not None:
-                                for item in result['items']:
-                                        st.write("제목: ", item['title'])
-                                        st.write("연도: ", item['pubDate'])
-                                        st.write("감독: ", item['director'])
-                                        st.write("배우: ", item['actor'])
+                        # TMDb 영화 검색 API 호출
+                        results = md.searchTmdbMovie(keyword, st.secrets["TMDB"]["api_key"])
+                       # 검색 결과 출력
+                        if results is not None and len(results) > 0:
+                                for movie in results:
+                                        st.write("제목: ", movie["title"])
+                                        st.write("개봉 날짜: ", movie["release_date"])
+                                        st.write("평점: ", movie["vote_average"])
+                                        st.write("요약: ", movie["overview"])
 
                                         # 영화 포스터 출력
-                                        if item['image'] != "":
-                                           st.image(item['image'])
+                                        if movie["poster_path"] is not None:
+                                           st.image("https://image.tmdb.org/t/p/w500" + movie["poster_path"])
+                        else:
+                             st.write("검색 결과가 없습니다.")
+                             
         elif choice == '영화추천':
                 st.title('영화추천페이지')
                 st.subheader(f'{keyword}와(과) 연관도가 높은 영화 10개 입니다.')

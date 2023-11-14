@@ -17,8 +17,8 @@ const_SAModel_name = 'SA_LogR_model.pkl'
 const_wordFreqRange = 80
 
 #환경 변수에서 인증 정보 가져오기
-client_id = st.secrets["NAVER_CLIENT_ID"]
-client_secret = st.secrets["NAVER_CLIENT_SECRET"]
+client_id = "faHnL3C2i0ZMwHKA55Aj"
+client_secret = "r7ryCx700c"
 const_url = "https://openapi.naver.com/v1/search/blog.json?query=" # JSON 결과
 const_start = 1
 const_display = 100
@@ -31,12 +31,12 @@ const_display = 100
 def searchNaverNews(keyword, start, display):
     # query string 생성
     encText = urllib.parse.quote(keyword)
-    reqUrl = const_url + f"{encText}&start={start}&display={display}"
+    reqUrl = const_url+f"{encText}&start={start}&display={display}"
 
     # Request 객체 생성
     request = urllib.request.Request(reqUrl)
-    request.add_header("X-Naver-Client-Id", client_id)
-    request.add_header("X-Naver-Client-Secret", client_secret)
+    request.add_header("X-Naver-Client-Id",client_id)
+    request.add_header("X-Naver-Client-Secret",client_secret)
 
     # Request 객체의 urlopen을 실행하여 Response 받기
     result_json = None
