@@ -23,6 +23,9 @@ def searchNaverMovie(keyword, start=const_start, display=const_display):
     request.add_header("X-Naver-Client-Id", client_id)
     request.add_header("X-Naver-Client-Secret", client_secret)
 
+    # Request 객체의 urlopen을 실행하여 Response 받기
+    result_json = None
+
     # 네이버 서버로 요청 보내기
     response = urllib.request.urlopen(request)
     rescode = response.getcode()
@@ -30,7 +33,8 @@ def searchNaverMovie(keyword, start=const_start, display=const_display):
      # 요청 처리 결과 확인
     if(rescode == 200): # 성공
         response_body = response.read()
-        return response_body.decode('utf-8')
+        result_json = json.loads(response_body.decode('utf-8')) # 응답 본문을 JSON 형태로 변환
+        return result_json
     else: # 실패
-        print("Error Code:" + rescode)
+        print(f"Error Code: {rescode}")
         return None
