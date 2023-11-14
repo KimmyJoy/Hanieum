@@ -13,28 +13,35 @@ const_display = 100
 # 네이버 영화를 검색하여, json형태로 검색 결과 return
 # input : 검색어(String)
 # output :
-def searchNaverMovie(keyword, start=const_start, display=const_display):
+def searchNaverMovie(keyword, display=const_display, start=const_start):
     # query string 생성
     encText = urllib.parse.quote(keyword)
-    reqUrl = const_url + f"{encText}&start={start}&display={display}"
+    reqUrl = const_url + f"{encText}&display={display}&start={start}"
 
     # Request 객체 생성
     request = urllib.request.Request(reqUrl)
     request.add_header("X-Naver-Client-Id", client_id)
     request.add_header("X-Naver-Client-Secret", client_secret)
 
-    # Request 객체의 urlopen을 실행하여 Response 받기
+   # Request 객체의 urlopen을 실행하여 Response 받기
     result_json = None
+    try:
+        response = urllib.request.urlopen(request)
+        rescode = response.getcode()
+        # Response 객체에서 검색 결과 얻어서 json으로 변환하기
+        if (rescode == 200):
+            response_body = response.read()
+            response_body_dec = response_body.decode('utf-8')
+            result_json = json.loads(response_body_dec)
+    except Exception as e:
+        print(e)
+        print(f"Error :{reqUrl}")
 
-    # 네이버 서버로 요청 보내기
-    response = urllib.request.urlopen(request)
-    rescode = response.getcode()
+    # 검색이 진행되는 상황 logging 하기
+    if (result_json != None):
+        print(f"{keyword} [{start}] : Search Request Succes")
+    else:
+        print(f"{keyword} [{start}] : Error~~~~~~~")
 
-     # 요청 처리 결과 확인
-    if(rescode == 200): # 성공
-        response_body = response.read()
-        result_json = json.loads(response_body.decode('utf-8')) # 응답 본문을 JSON 형태로 변환
-        return result_json
-    else: # 실패
-        print(f"Error Code: {rescode}")
-        return None
+    # JSON 형태의 검색 결과 return하기
+    return result_json
