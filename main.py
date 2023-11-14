@@ -35,15 +35,15 @@ else :
                        # 검색 결과 출력
                         if results is not None and len(results) > 0:
                                 for movie in results:
-                                        # 데이터프레임 생성
-                                        df = pd.DataFrame([movie])
-                                        df = df[['title', 'release_date', 'vote_average', 'overview']]
-                                        df.columns = ['제목', '개봉 날짜', '평점', '요약']
-                                        st.dataframe(df)
+                                        #마크 다운으로 영화 정보 출력
+                                        st.markdown(f"**제목:** {movie['title']}")
+                                        st.markdown(f"**개봉 날짜:** {movie['release_date']}")
+                                        st.markdown(f"**평점:** {movie['vote_average']}")
+                                        st.markdown(f"**요약:** {movie['overview']}")
 
                                         # 영화 포스터 출력
                                         if movie["poster_path"] is not None:
-                                           st.image("https://image.tmdb.org/t/p/w500" + movie["poster_path"])
+                                           st.image("https://image.tmdb.org/t/p/w500" + movie["poster_path"], height=720)
 
                                         st.markdown("<hr/>", unsafe_allow_html=True)
                         else:
