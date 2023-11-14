@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from streamlit_option_menu import option_menu
 import movie_recommendation as mr
 import movie_details as md
+import pandas as pd
 
 keyword = ''
 
@@ -34,14 +35,17 @@ else :
                        # 검색 결과 출력
                         if results is not None and len(results) > 0:
                                 for movie in results:
-                                        st.write("제목: ", movie["title"])
-                                        st.write("개봉 날짜: ", movie["release_date"])
-                                        st.write("평점: ", movie["vote_average"])
-                                        st.write("요약: ", movie["overview"])
+                                        # 데이터프레임 생성
+                                        df = pd.DataFrame([movie])
+                                        df = df[['title', 'release_date', 'vote_average', 'overview']]
+                                        df.columns = ['제목', '개봉 날짜', '평점', '요약']
+                                        st.dataframe(df)
 
                                         # 영화 포스터 출력
                                         if movie["poster_path"] is not None:
                                            st.image("https://image.tmdb.org/t/p/w500" + movie["poster_path"])
+
+                                        st.markdown("<hr/>", unsafe_allow_html=True)
                         else:
                              st.write("검색 결과가 없습니다.")
                              
