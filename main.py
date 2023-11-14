@@ -30,7 +30,7 @@ else :
                 st.subheader(f'{keyword}의 상세정보입니다.')
                 with st.spinner('Wait for it...'):
                         # TMDb 영화 검색 API 호출
-                        results = md.searchTmdbMovie(keyword, st.secrets["TMDB"]["api_key"])
+                        results = md.searchTmdbMovie(keyword, st.secrets["api_key"])
                        # 검색 결과 출력
                         if results is not None and len(results) > 0:
                                 for movie in results:
